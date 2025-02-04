@@ -12,5 +12,14 @@ class Box {
         this.#open = false;
         this.#free = true;
     }
+    get col(){
+        return this.#col;
+    };
+
+    get row(){
+        return this.#row;
+    };
+
+    
 }
 export default Box;
