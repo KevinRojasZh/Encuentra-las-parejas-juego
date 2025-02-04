@@ -32,43 +32,38 @@ class Game{
 
     createRandomColor(){
         let randomColor = []
-        for (let index = 0; index < (this.#cols * this.#rows)/ 2; index++) {
+        for (let index = 0; index < (this.#cols * this.#rows) / 2; index++) {
             let red = Math.floor(Math.random() * 256);
             let green = Math.floor(Math.random() * 256);
             let blue = Math.floor(Math.random() * 256);
             let color = `rgb(${red}, ${green}, ${blue})`;
             randomColor.push(color);
-            randomColor = [...randomColor, ...randomColor];
+        }
+        randomColor = [...randomColor, ...randomColor];
+            console.log(randomColor);
             shuffleArray(randomColor);
             return randomColor;
-        }
     }
 
     printBoxes(){
         this.setDisplayTag();
         this.#boxes.map((box)=>{
-            let newBox = document.createElement('div');
-            newBox.classList.add('box');
-            newBox.dataset.col = box.col;
-            newBox.dataset.row = box.row;
-            
-            this.element.appendChild(newBox);
-
-
-
-            
-
+            let newBoxDiv = document.createElement('div');
+            newBoxDiv.classList.add('box');
+            newBoxDiv.dataset.col = box.col;
+            newBoxDiv.dataset.row = box.row;
+            box.element = newBoxDiv;
+            box.addEverOnClick();
+            this.element.appendChild(newBoxDiv);
 
         })
-
-
-
-
     }
+
     setDisplayTag(){
         this.element.style.display = `grid`;
         this.element.style.gridTemplateColumns = `repeat(${this.#cols}, 1fr)`;
         this.element.style.gridTemplateRows = `repeat(${this.#rows}, 1fr)`;
     }
 }
+
 export default Game;
