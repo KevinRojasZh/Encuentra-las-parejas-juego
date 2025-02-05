@@ -20,6 +20,18 @@ class Box {
     get row(){
         return this.#row;
     };
+    get open(){
+        return this.#open
+    }
+    get color(){
+        return this.#color
+    }
+    get element(){
+        return this.#element
+    }
+    get free(){
+        return this.#free
+    }
 
     set element(element){
         this.#element = element;
@@ -31,13 +43,22 @@ class Box {
         this.#free = newValue
     }
 
-    addEverOnClick(){
+    addEventOnClick(){
         if (this.#element){
             this.#element.addEventListener( "click",(e) => {
-                Box.open = true;
-                this.#element.style.backgroundColor = this.#color;
+                if(!this.#open){
+                    this.#open = true;
+                    this.#element.style.backgroundColor = this.#color;
+                } return false;
+
             });
         }
+    }
+
+    resetColor(){
+        this.#element.style.backgroundColor = 'black';
+        this.#open = false;
+
     }
 }
 export default Box;

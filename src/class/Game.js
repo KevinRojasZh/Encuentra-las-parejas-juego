@@ -6,6 +6,7 @@ class Game{
     #rows;
     #idElement;
     #boxes;
+    element;
 
     constructor(cols,rows, idElement = 'game'){
         this.#cols =cols;
@@ -15,6 +16,10 @@ class Game{
         this.element = document.getElementById(idElement);
         this.createBoxes();
         this.printBoxes();
+
+        this.element.addEventListener('click',() =>{
+            this.checkOpenBoxes();
+        });
     }
 
     createBoxes(){
@@ -27,7 +32,6 @@ class Game{
                 this.#boxes.push(box)
             }
         }
-
     }
 
     createRandomColor(){
@@ -40,10 +44,9 @@ class Game{
             randomColor.push(color);
         }
         randomColor = [...randomColor, ...randomColor];
-            console.log(randomColor);
             shuffleArray(randomColor);
             return randomColor;
-    }
+    };
 
     printBoxes(){
         this.setDisplayTag();
@@ -52,18 +55,34 @@ class Game{
             newBoxDiv.classList.add('box');
             newBoxDiv.dataset.col = box.col;
             newBoxDiv.dataset.row = box.row;
+            //Seteamos el elemnt ddel box 
             box.element = newBoxDiv;
-            box.addEverOnClick();
+            box.addEventOnClick();
             this.element.appendChild(newBoxDiv);
-
         })
-    }
+    };
 
     setDisplayTag(){
         this.element.style.display = `grid`;
         this.element.style.gridTemplateColumns = `repeat(${this.#cols}, 1fr)`;
         this.element.style.gridTemplateRows = `repeat(${this.#rows}, 1fr)`;
+    };
+
+    checkOpenBoxes(){
+            let boxesOpens = this.#boxes.filter((box)=> box.open && box.free)
+            if (boxesOpens.length == 2){
+                if (boxesOpens[0].color === boxesOpens[1].color) {
+                    boxesOpens.map((box)=>{
+                        box.free = false})
+                } else {
+                    setTimeout(() => {
+                    boxesOpens.map((box)=>{box.resetColor()})
+                    },300)};
+            };
     }
+
+
+
 }
 
 export default Game;
